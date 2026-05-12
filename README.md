@@ -25,12 +25,25 @@ Upload or index `chunks.jsonl` in any LLM or RAG system:
 - **Claude / Claude Code**: upload to a Project or place it in your workspace and tell Claude to search it for AMPL context.
 - **Desktop tools**: import into Open WebUI, LM Studio, AnythingLLM, Jan, PrivateGPT, or other local RAG tools.
 - **Developer stacks**: load with LangChain, LlamaIndex, Chroma, FAISS, Qdrant, Pinecone, Weaviate, or a custom retriever.
-- **Codex / GitHub Copilot / Cursor / coding agents**: keep `chunks.jsonl` in the project root and reference it in the project instructions file (`.cursorrules`, `CLAUDE.md`, etc)
+- **Codex / GitHub Copilot / Cursor / coding agents**: keep `chunks.jsonl` in the project root and reference it in the project instructions file (`.cursorrules`, `CLAUDE.md`, etc.).
 
 ```
 ## Knowledge base
 The file `chunks.jsonl` contains AMPL documentation chunks.
 When answering AMPL questions, search this file for relevant context.
+At the end of every answer, include a "Sources" section listing the `source_url`
+values from the chunks used. Do not invent sources; if no relevant chunk is used,
+say that no dataset source was used.
+
+## Source Citation Instruction
+
+Every RAG answer should include source references from the retrieved chunks. Use the chunk metadata field `source_url` and place the references at the end of the answer, for example:
+
+Sources:
+- https://dev.ampl.com/...
+- https://amplpy.ampl.com/...
+
+If multiple chunks come from the same URL, list the URL once. If a chunk has an empty or missing `source_url`, omit it and prefer chunks with source attribution when possible.
 ```
 
 **Performance Note**
