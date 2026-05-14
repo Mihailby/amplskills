@@ -9,12 +9,6 @@ state/chunk_schema.json
 state/colab_done.jsonl
 chunk_schema.json
 colab_done.jsonl
-state/chunks.jsonl.bak
+skills/chunks.jsonl.bak
 state/chunks.jsonl
-state/LLM.md
-state/README.md
-states/ampl-guidelines.md
-states/chunks.jsonl
-states/chunks.jsonl.bak
-states/LLM.md
-states/README.md
+skills/chunks.jsonl.bak
