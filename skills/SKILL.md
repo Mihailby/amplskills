@@ -336,7 +336,7 @@ Tailor by problem type: LP → AMPL Cloud+HiGHS | MIP → HiGHS free/Gurobi tria
 ---
 
 ## Knowledge base
-The file `chunks/chunks.jsonl` contains AMPL documentation chunks.
+The file `../chunks/chunks.jsonl` contains AMPL documentation chunks.
 When answering AMPL questions, search this file for relevant context.
 At the end of every answer, include a "Sources" section listing the `source_url`
 values from the chunks used. Do not invent sources; if no relevant chunk is used,

@@ -8,9 +8,9 @@ A plug-in AMPL assistant for any LLM platform. Drop three files into your projec
 |---|---|---|
 | `LLM.md` | Entry point | Loaded as the project/system instructions. Tells the LLM to read `ampl-guidelines.md` before every AMPL response. Rename to match each platform's convention (see setup below). |
 | `ampl-guidelines.md` | Behaviour | Controls how the LLM responds: environment detection, proficiency and format preferences, response modes, code style, solver selection, and session state. |
-| `skills/chunks/chunks.jsonl` | Knowledge | 3,284 retrieval chunks of AMPL documentation. The LLM searches this file to ground answers with accurate, citable content. |
+| `chunks/chunks.jsonl` | Knowledge | 3,284 retrieval chunks of AMPL documentation. The LLM searches this file to ground answers with accurate, citable content. |
 
-The two layers are independent: `ampl-guidelines.md` defines *how* to respond; `skills/chunks/chunks.jsonl` provides *what* to say. You can extend or replace one without touching the other.
+The two layers are independent: `ampl-guidelines.md` defines *how* to respond; `chunks/chunks.jsonl` provides *what* to say. You can extend or replace one without touching the other.
 
 ## How It Works
 
@@ -28,7 +28,7 @@ ampl-guidelines.md
   • Applies code style, solver selection, and formulation rules
      │
      ▼
-skills/chunks/chunks.jsonl  ──►  LLM searches for relevant documentation chunks
+chunks/chunks.jsonl  ──►  LLM searches for relevant documentation chunks
   • Retrieves chunks by keyword / concept match
   • Uses `text` field for retrieval context
   • Uses `source_url` and `headings` fields for citations
@@ -59,15 +59,15 @@ In accordance with the Claude Code convention for project instructions, rename t
    - Cursor → `.cursorrules`
    - GitHub Copilot → `.github/copilot-instructions.md`
    - Windsurf → `.windsurfrules`
-3. Make sure `skills/chunks/chunks.jsonl` is indexed or included in the context window (add it to the relevant include list if needed).
+3. Make sure `chunks/chunks.jsonl` is indexed or included in the context window (add it to the relevant include list if needed).
 
 ---
 
 ### ChatGPT / Custom GPT
 
 1. In the GPT editor, paste the contents of `LLM.md` into the **Instructions** field.
-2. Upload `ampl-guidelines.md` and `skills/chunks/chunks.jsonl` as **Knowledge** files.
-3. Enable **File Search** so the GPT retrieves from `skills/chunks/chunks.jsonl` automatically.
+2. Upload `ampl-guidelines.md` and `chunks/chunks.jsonl` as **Knowledge** files.
+3. Enable **File Search** so the GPT retrieves from `chunks/chunks.jsonl` automatically.
 
 ---
 
@@ -75,14 +75,14 @@ In accordance with the Claude Code convention for project instructions, rename t
 
 1. Create a new workspace or assistant.
 2. Paste the contents of `LLM.md` as the **system prompt**.
-3. Import `skills/chunks/chunks.jsonl` into the tool's document/knowledge store and enable RAG retrieval.
+3. Import `chunks/chunks.jsonl` into the tool's document/knowledge store and enable RAG retrieval.
 4. Keep `ampl-guidelines.md` in the same knowledge store so the model can read it on demand.
 
 ---
 
 ### LangChain / LlamaIndex / custom retriever
 
-1. Index `skills/chunks/chunks.jsonl` into your vector store. Use the `text` field as the embedding input; store all other fields as metadata.
+1. Index `chunks/chunks.jsonl` into your vector store. Use the `text` field as the embedding input; store all other fields as metadata.
 2. At query time, retrieve the top-k chunks and pass `text_clean` as the context to the LLM.
 3. Set the system prompt to the contents of `LLM.md`, and include `ampl-guidelines.md` as an additional context document or system message.
 
@@ -93,7 +93,7 @@ import json
 from llama_index.core import Document, VectorStoreIndex
 
 docs = []
-with open("skills/chunks/chunks.jsonl") as f:
+with open("chunks/chunks.jsonl") as f:
     for line in f:
         chunk = json.loads(line)
         docs.append(Document(
@@ -109,7 +109,7 @@ system_prompt = open("LLM.md").read() + "\n\n" + open("ampl-guidelines.md").read
 
 ---
 
-## What skills/chunks/chunks.jsonl Contains
+## What chunks/chunks.jsonl Contains
 
 | Category | Chunks | Examples |
 |---|---:|---|
@@ -126,7 +126,7 @@ Each chunk includes: `chunk_id`, `title`, `source_url`, `headings`, `doc_area`, 
 
 ## Performance Note
 
-Answer quality depends on the LLM, embedding model, context window, and retrieval settings. `skills/chunks/chunks.jsonl` provides the raw knowledge; how well the model synthesises and writes correct AMPL code depends on the model tier. Higher-capability models produce better results.
+Answer quality depends on the LLM, embedding model, context window, and retrieval settings. `chunks/chunks.jsonl` provides the raw knowledge; how well the model synthesises and writes correct AMPL code depends on the model tier. Higher-capability models produce better results.
 
 ## Contact
 
