@@ -6,11 +6,11 @@ A plug-in AMPL assistant for any LLM platform. Drop three files into your projec
 
 | File | Layer | What it does |
 |---|---|---|
-| `LLM.md` | Entry point | Loaded as the project/system instructions. Tells the LLM to read `ampl-guidelines.md` before every AMPL response. Rename to match each platform's convention (see setup below). |
-| `ampl-guidelines.md` | Behaviour | Controls how the LLM responds: environment detection, proficiency and format preferences, response modes, code style, solver selection, and session state. |
+| `LLM.md` | Entry point | Loaded as the project/system instructions. Tells the LLM to read `SKILL.md` before every AMPL response. Rename to match each platform's convention (see setup below). |
+| `SKILL.md` | Behaviour | Controls how the LLM responds: environment detection, proficiency and format preferences, response modes, code style, solver selection, and session state. |
 | `chunks/chunks.jsonl` | Knowledge | 3,284 retrieval chunks of AMPL documentation. The LLM searches this file to ground answers with accurate, citable content. |
 
-The two layers are independent: `ampl-guidelines.md` defines *how* to respond; `chunks/chunks.jsonl` provides *what* to say. You can extend or replace one without touching the other.
+The two layers are independent: `SKILL.md` defines *how* to respond; `chunks/chunks.jsonl` provides *what* to say. You can extend or replace one without touching the other.
 
 ## How It Works
 
@@ -18,10 +18,10 @@ The two layers are independent: `ampl-guidelines.md` defines *how* to respond; `
 User question
      │
      ▼
-LLM.md  ──►  instructs the LLM to read ampl-guidelines.md first
+LLM.md  ──►  instructs the LLM to read SKILL.md first
      │
      ▼
-ampl-guidelines.md
+SKILL.md
   • Detects environment (Jupyter, Python script, pure AMPL)
   • Confirms proficiency and format preference if not already known
   • Selects response mode (Full / Quick / Tutorial / Code-focused)
@@ -36,7 +36,7 @@ chunks/chunks.jsonl  ──►  LLM searches for relevant documentation chunks
      ▼
 Response
   • Grounded in retrieved chunk content
-  • Formatted per ampl-guidelines.md rules
+  • Formatted per SKILL.md rules
   • Sources section with source_url citations
   • Session parameters footer (proficiency · env · format)
 ```
@@ -66,7 +66,7 @@ In accordance with the Claude Code convention for project instructions, rename t
 ### ChatGPT / Custom GPT
 
 1. In the GPT editor, paste the contents of `LLM.md` into the **Instructions** field.
-2. Upload `ampl-guidelines.md` and `chunks/chunks.jsonl` as **Knowledge** files.
+2. Upload `SKILL.md` and `chunks/chunks.jsonl` as **Knowledge** files.
 3. Enable **File Search** so the GPT retrieves from `chunks/chunks.jsonl` automatically.
 
 ---
@@ -76,7 +76,7 @@ In accordance with the Claude Code convention for project instructions, rename t
 1. Create a new workspace or assistant.
 2. Paste the contents of `LLM.md` as the **system prompt**.
 3. Import `chunks/chunks.jsonl` into the tool's document/knowledge store and enable RAG retrieval.
-4. Keep `ampl-guidelines.md` in the same knowledge store so the model can read it on demand.
+4. Keep `SKILL.md` in the same knowledge store so the model can read it on demand.
 
 ---
 
@@ -84,7 +84,7 @@ In accordance with the Claude Code convention for project instructions, rename t
 
 1. Index `chunks/chunks.jsonl` into your vector store. Use the `text` field as the embedding input; store all other fields as metadata.
 2. At query time, retrieve the top-k chunks and pass `text_clean` as the context to the LLM.
-3. Set the system prompt to the contents of `LLM.md`, and include `ampl-guidelines.md` as an additional context document or system message.
+3. Set the system prompt to the contents of `LLM.md`, and include `SKILL.md` as an additional context document or system message.
 
 **Minimal example (LlamaIndex):**
 
@@ -104,7 +104,7 @@ with open("chunks/chunks.jsonl") as f:
 index = VectorStoreIndex.from_documents(docs)
 query_engine = index.as_query_engine()
 
-system_prompt = open("LLM.md").read() + "\n\n" + open("ampl-guidelines.md").read()
+system_prompt = open("LLM.md").read() + "\n\n" + open("SKILL.md").read()
 ```
 
 ---
