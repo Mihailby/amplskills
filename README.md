@@ -64,37 +64,14 @@ uploaded files to 500 KB.
 - Size: 9,482,250 bytes
 - SHA-256: 4C378E141F0ADB6DE8197FAEABADF7E90409416C88D5A5BE66F2C2B5B7C498CF
 
-Recommended MCPMarket package contents:
-
-```text
-SKILL.md
-LLM.md
-```
-
-Do not upload `chunks/chunks.jsonl` directly to MCPMarket. Instead, include the
-corpus URL and checksum in the skill description or frontmatter metadata so users
-and agents can verify the file before indexing it.
-
-For users:
-
-1. Install the `ampl-optimization-guide` skill from MCPMarket.
+1. Install the `SKILL.md` skill from MCPMarket.
 2. Download `chunks.jsonl` from the corpus URL above.
 3. Verify the SHA-256 checksum if your tool supports checksum validation.
 4. Put the file at `chunks/chunks.jsonl`, or configure your RAG/vector store to
    index the downloaded JSONL file.
 5. Ask AMPL, amplpy, or optimization questions. The skill controls response
    behavior, and `chunks.jsonl` provides documentation-grounded retrieval.
-
-For maintainers:
-
-1. Keep the marketplace name as `AMPL Optimization Guide`.
-2. Keep the slug/package name stable, for example `ampl-optimization-guide`.
-3. Use the raw GitHub URL, not a GitHub `/tree/` or `/blob/` page URL.
-4. Update the size and SHA-256 checksum whenever `chunks.jsonl` changes.
-5. If MCPMarket later supports larger files or multiple knowledge files, the same
-   corpus can be bundled directly or split into shard files under the upload
-   limit.
-
+   
 ---
 
 ### Cursor / Windsurf / Copilot / coding agents
