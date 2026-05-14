@@ -52,6 +52,17 @@ In accordance with the Claude Code convention for project instructions, rename t
 
 ---
 
+### MCPMarket
+
+This package uses an external AMPL documentation corpus because MCPMarket limits
+individual uploaded files to 500 KB.
+
+- Corpus URL: https://github.com/Mihailby/amplskills/tree/main/chunks/chunks.jsonl
+- Size: 9,482,250 bytes
+- SHA-256: 4C378E141F0ADB6DE8197FAEABADF7E90409416C88D5A5BE66F2C2B5B7C498CF
+
+---
+
 ### Cursor / Windsurf / Copilot / coding agents
 
 1. Copy all three files into your project root.
@@ -131,4 +142,3 @@ Answer quality depends on the LLM, embedding model, context window, and retrieva
 ## Contact
 
 For questions, corrections, or contributions: `mikhail@ampl.com`
- 
